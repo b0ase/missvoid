@@ -1,6 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import GalleryImages from "../../components/GalleryImages";
 
 // Define the gallery data
 const galleries = [
@@ -59,12 +59,25 @@ export function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
+// Temporary image data until Blob storage is populated
+const tempImages = {
+  'void-xxx': ['/images/void-xxx.jpg', '/images/about.jpg', '/images/hero.jpg'],
+  'void-chic': ['/images/void-chic.jpg', '/images/miss-void.jpg', '/images/hero.jpg'],
+  'void-footwear': ['/images/hero.jpg', '/images/void-xxx.jpg', '/images/miss-void.jpg'],
+  'miss-void': ['/images/miss-void.jpg', '/images/void-chic.jpg', '/images/hero.jpg'],
+  'void-ink': ['/images/about.jpg', '/images/void-xxx.jpg', '/images/miss-void.jpg'],
+  'void-boudoir': ['/images/void-chic.jpg', '/images/about.jpg', '/images/hero.jpg']
+};
+
 export default function GalleryPage({ params }: { params: { id: string } }) {
   const gallery = galleries.find(g => g.id === params.id);
   
   if (!gallery) {
     notFound();
   }
+  
+  // Use temporary image data
+  const images = tempImages[params.id as keyof typeof tempImages] || [];
   
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
@@ -86,7 +99,26 @@ export default function GalleryPage({ params }: { params: { id: string } }) {
         </p>
       </div>
       
-      <GalleryImages galleryId={params.id} galleryName={gallery.name} />
+      {images.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {images.map((src, index) => (
+            <div key={index} className="group cursor-pointer">
+              <div className="relative aspect-[3/4] w-full overflow-hidden border border-gray-800">
+                <Image
+                  src={src}
+                  alt={`${gallery.name} - Image ${index + 1}`}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-gray-400">No images found in this gallery.</p>
+        </div>
+      )}
     </div>
   );
 } 
