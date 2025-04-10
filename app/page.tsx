@@ -31,7 +31,7 @@ export default function Home() {
           <h1 className="text-3xl md:text-5xl font-bold mb-4">MISSVOID.STORE</h1>
           <div className="w-16 md:w-20 h-1 bg-white mx-auto mb-4 md:mb-6"></div>
           <p className="text-lg md:text-xl max-w-2xl mx-auto px-2">
-            London fashion house creating fetish-inspired evening wear
+            London-based fashion house creating luxury fetish-inspired evening wear
           </p>
         </div>
         
