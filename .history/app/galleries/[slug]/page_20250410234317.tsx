@@ -43,8 +43,8 @@ const galleries = [
 ];
 
 // Generate metadata for the page
-export function generateMetadata({ params }: { params: { id: string } }) {
-  const gallery = galleries.find(g => g.id === params.id);
+export function generateMetadata({ params }: { params: { slug: string } }) {
+  const gallery = galleries.find(g => g.id === params.slug);
   
   if (!gallery) {
     return {
@@ -59,8 +59,8 @@ export function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default function GalleryPage({ params }: { params: { id: string } }) {
-  const gallery = galleries.find(g => g.id === params.id);
+export default function GalleryPage({ params }: { params: { slug: string } }) {
+  const gallery = galleries.find(g => g.id === params.slug);
   
   if (!gallery) {
     notFound();
@@ -86,7 +86,7 @@ export default function GalleryPage({ params }: { params: { id: string } }) {
         </p>
       </div>
       
-      <GalleryImages galleryId={params.id} galleryName={gallery.name} />
+      <GalleryImages galleryId={params.slug} galleryName={gallery.name} />
     </div>
   );
 } 
