@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import fs from "fs";
+import path from "path";
 
 // Define the gallery data
 const galleries = [
@@ -59,53 +61,29 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-// Fallback images if no Blob images are available yet
-const fallbackImages = {
-  'void-xxx': ['/images/void-xxx.jpg'],
-  'void-chic': ['/images/void-chic.jpg'],
-  'void-footwear': ['/images/hero.jpg'],
-  'miss-void': ['/images/miss-void.jpg'],
-  'void-ink': ['/images/about.jpg'],
-  'void-boudoir': ['/images/void-chic.jpg']
-};
-
-// Function to fetch images from API
-async function getGalleryImages(galleryId: string) {
+// Get gallery images
+function getGalleryImages(galleryId: string) {
   try {
-    // If we're in development, use fallback images
-    if (process.env.NODE_ENV === 'development') {
-      return { 
-        images: fallbackImages[galleryId as keyof typeof fallbackImages].map(url => ({ url })) || []
-      };
-    }
+    const imagesDir = path.join(process.cwd(), 'public', 'images', 'galleries', galleryId);
+    const fileNames = fs.readdirSync(imagesDir);
     
-    // In production, fetch from the Vercel Blob API
-    const response = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL || ''}/api/galleries/${galleryId}`, {
-      cache: 'no-store' // Don't cache the response so we always get fresh data
-    });
-    
-    if (!response.ok) {
-      console.error('Error fetching gallery images:', response.statusText);
-      return { images: [] };
-    }
-    
-    return await response.json();
+    return fileNames
+      .filter(file => /\.(jpg|jpeg|png|JPG|JPEG|PNG)$/.test(file))
+      .map(file => `/images/galleries/${galleryId}/${file}`);
   } catch (error) {
-    console.error('Error fetching gallery images:', error);
-    return { images: [] };
+    console.error(`Error reading gallery images for ${galleryId}:`, error);
+    return [];
   }
 }
 
-export default async function GalleryPage({ params }: { params: { id: string } }) {
+export default function GalleryPage({ params }: { params: { id: string } }) {
   const gallery = galleries.find(g => g.id === params.id);
   
   if (!gallery) {
     notFound();
   }
   
-  // Fetch images from Vercel Blob via API
-  const galleryData = await getGalleryImages(gallery.id);
-  const images = galleryData.images || [];
+  const images = getGalleryImages(gallery.id);
   
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
@@ -129,11 +107,11 @@ export default async function GalleryPage({ params }: { params: { id: string } }
       
       {images.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {images.map((image: { url: string }, index: number) => (
+          {images.map((src, index) => (
             <div key={index} className="group cursor-pointer">
               <div className="relative aspect-[3/4] w-full overflow-hidden border border-gray-800">
                 <Image
-                  src={image.url}
+                  src={src}
                   alt={`${gallery.name} - Image ${index + 1}`}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
