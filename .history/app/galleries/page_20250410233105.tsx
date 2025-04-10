@@ -8,42 +8,12 @@ export const metadata = {
 
 export default function GalleriesPage() {
   const galleries = [
-    { 
-      id: 'void-xxx', 
-      name: 'VOID XXX', 
-      description: 'Our most provocative evening wear collection', 
-      image: '/images/void-xxx.jpg' 
-    },
-    { 
-      id: 'void-chic', 
-      name: 'VOID CHIC', 
-      description: 'Elegant and sophisticated fetish-inspired fashion', 
-      image: '/images/void-chic.jpg' 
-    },
-    { 
-      id: 'void-footwear', 
-      name: 'VOID FOOTWEAR', 
-      description: 'Statement footwear for bold fashion statements', 
-      image: '/images/hero.jpg' 
-    },
-    { 
-      id: 'miss-void', 
-      name: 'MISS VOID', 
-      description: 'Our signature collection featuring iconic designs', 
-      image: '/images/miss-void.jpg' 
-    },
-    { 
-      id: 'void-ink', 
-      name: 'VOID INK', 
-      description: 'Dark and mysterious artistic expression', 
-      image: '/images/about.jpg' 
-    },
-    { 
-      id: 'void-boudoir', 
-      name: 'VOID BOUDOIR', 
-      description: 'Intimate and alluring boudoir fashion', 
-      image: '/images/void-chic.jpg' 
-    }
+    { name: 'VOID XXX', description: 'Our most provocative evening wear collection', image: '/images/void-xxx.jpg' },
+    { name: 'VOID CHIC', description: 'Elegant and sophisticated fetish-inspired fashion', image: '/images/void-chic.jpg' },
+    { name: 'VOID FOOTWEAR', description: 'Statement footwear for bold fashion statements', image: '/images/hero.jpg' },
+    { name: 'MISS VOID', description: 'Our signature collection featuring iconic designs', image: '/images/miss-void.jpg' },
+    { name: 'VOID INK', description: 'Dark and mysterious artistic expression', image: '/images/about.jpg' },
+    { name: 'VOID BOUDOIR', description: 'Intimate and alluring boudoir fashion', image: '/images/void-chic.jpg' }
   ];
 
   return (
@@ -58,7 +28,7 @@ export default function GalleriesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {galleries.map((gallery, index) => (
-          <Link key={index} href={`/galleries/${gallery.id}`} className="group cursor-pointer">
+          <div key={index} className="group cursor-pointer">
             <div className="overflow-hidden border border-gray-800">
               <div className="relative h-80 w-full">
                 <Image
@@ -79,7 +49,7 @@ export default function GalleriesPage() {
                 <p className="text-gray-400">{gallery.description}</p>
               </div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
