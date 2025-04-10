@@ -101,7 +101,7 @@ export default function Home() {
             <h2 className="text-xl md:text-2xl font-bold mb-4">ABOUT MISS VOID</h2>
             <div className="w-10 md:w-12 h-1 bg-white mb-4 md:mb-6"></div>
             <p className="mb-6 text-sm md:text-base">
-              London fashion house creating fetish-inspired evening wear, merging latex, leather, and PVC with elegant silhouettes and avant-garde design elements.
+              London-based luxury fashion house creating distinctive fetish-inspired evening wear, merging latex, leather, and PVC with elegant silhouettes and avant-garde design elements.
             </p>
             <Link 
               href="/about" 
