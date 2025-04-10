@@ -39,18 +39,6 @@ const galleries = [
     name: 'VOID BOUDOIR', 
     description: 'Intimate and alluring boudoir fashion', 
     image: '/images/void-chic.jpg' 
-  },
-  { 
-    id: 'void-industry', 
-    name: 'VOID INDUSTRY', 
-    description: 'Industrial and avant-garde inspired pieces', 
-    image: '/images/hero.jpg' 
-  },
-  { 
-    id: 'void-muscles', 
-    name: 'VOID MUSCLES', 
-    description: 'Strength and form-focused collection', 
-    image: '/images/about.jpg' 
   }
 ];
 
@@ -79,21 +67,21 @@ export default function GalleryPage({ params }: { params: { slug: string } }) {
   }
   
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10 md:py-14">
+    <div className="max-w-6xl mx-auto px-4 py-8">
       <Link 
         href="/galleries"
-        className="inline-flex items-center mb-8 py-2 px-3 bg-black border border-gray-800 rounded-md text-gray-300 hover:text-white transition-colors duration-200 group"
+        className="inline-flex items-center mb-6 py-2"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 transform group-hover:-translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
           <path fillRule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clipRule="evenodd" />
         </svg>
-        <span className="tracking-wide text-sm font-medium">BACK TO GALLERIES</span>
+        BACK TO GALLERIES
       </Link>
       
-      <div className="text-center mb-12 md:mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">{gallery.name}</h1>
-        <div className="w-20 md:w-24 h-1 bg-white mx-auto mb-6 md:mb-8"></div>
-        <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-8 md:mb-12 px-2 text-gray-300 leading-relaxed">
+      <div className="text-center mb-8 md:mb-12">
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">{gallery.name}</h1>
+        <div className="w-16 md:w-20 h-1 bg-white mx-auto mb-4 md:mb-6"></div>
+        <p className="text-lg md:text-xl max-w-2xl mx-auto mb-6 md:mb-10 px-2">
           {gallery.description}
         </p>
       </div>

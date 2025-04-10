@@ -80,19 +80,10 @@ export default function GalleryImages({ galleryId, galleryName }: GalleryImagesP
     setSelectedImage(images[newIndex]);
   };
   
-  // Handle image loading errors by using a placeholder
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const target = e.target as HTMLImageElement;
-    target.src = '/images/placeholder.jpg';
-    // If no placeholder image exists, set a background color
-    target.onerror = null; // Prevent infinite error loop
-    target.style.backgroundColor = '#222';
-  };
-  
   if (loading) {
     return (
       <div className="text-center py-12">
-        <div className="inline-block px-8 py-5 border border-gray-800 rounded-lg bg-black bg-opacity-40">
+        <div className="inline-block px-8 py-5 border border-gray-800">
           <div className="flex items-center justify-center space-x-2">
             <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
             <div className="w-3 h-3 bg-white rounded-full animate-pulse delay-150"></div>
@@ -107,10 +98,10 @@ export default function GalleryImages({ galleryId, galleryName }: GalleryImagesP
   if (error && images.length === 0) {
     return (
       <div className="text-center py-12">
-        <div className="inline-block border border-red-800 px-6 py-4 bg-black text-red-400 rounded-lg">
+        <div className="inline-block border border-red-800 px-6 py-4 bg-black text-red-400">
           <p>{error}</p>
           <button 
-            className="mt-4 px-4 py-2 border border-red-800 hover:bg-red-900 transition-colors duration-200 rounded"
+            className="mt-4 px-4 py-2 border border-red-800 hover:bg-red-900"
             onClick={() => window.location.reload()}
           >
             Retry
@@ -120,23 +111,13 @@ export default function GalleryImages({ galleryId, galleryName }: GalleryImagesP
     );
   }
   
-  if (images.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <div className="inline-block border border-gray-800 px-6 py-4 bg-black text-gray-400 rounded-lg">
-          <p>No images available for this gallery yet.</p>
-        </div>
-      </div>
-    );
-  }
-  
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {images.map((src, index) => (
           <div 
             key={index} 
-            className="group cursor-pointer aspect-[3/4] relative overflow-hidden rounded-lg border border-gray-700"
+            className="group cursor-pointer aspect-[3/4] relative overflow-hidden border border-gray-800"
             onClick={() => openLightbox(src, index)}
           >
             <Image
@@ -145,16 +126,11 @@ export default function GalleryImages({ galleryId, galleryName }: GalleryImagesP
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              onError={handleImageError}
-              quality={80}
             />
             <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-30 transition-opacity duration-300 flex items-center justify-center">
-              <span className="text-white text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-60 px-4 py-2 rounded">
-                View Full Size
+              <span className="text-white text-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                View
               </span>
-            </div>
-            <div className="absolute bottom-0 left-0 m-3 px-2 py-1 bg-black bg-opacity-70 text-xs text-gray-300 rounded">
-              {index + 1}/{images.length}
             </div>
           </div>
         ))}
@@ -173,7 +149,6 @@ export default function GalleryImages({ galleryId, galleryName }: GalleryImagesP
               e.stopPropagation();
               closeLightbox();
             }}
-            aria-label="Close lightbox"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -181,36 +156,30 @@ export default function GalleryImages({ galleryId, galleryName }: GalleryImagesP
           </button>
           
           {/* Previous button */}
-          {images.length > 1 && (
-            <button 
-              className="absolute left-4 z-50 text-white p-2 bg-black bg-opacity-50 rounded-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigateImage('prev');
-              }}
-              aria-label="Previous image"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-          )}
+          <button 
+            className="absolute left-4 z-50 text-white p-2 bg-black bg-opacity-50 rounded-full"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigateImage('prev');
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
           
           {/* Next button */}
-          {images.length > 1 && (
-            <button 
-              className="absolute right-4 z-50 text-white p-2 bg-black bg-opacity-50 rounded-full"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigateImage('next');
-              }}
-              aria-label="Next image"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          )}
+          <button 
+            className="absolute right-4 z-50 text-white p-2 bg-black bg-opacity-50 rounded-full"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigateImage('next');
+            }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
           
           <div 
             className="relative w-full max-w-5xl h-[85vh]"
@@ -224,13 +193,7 @@ export default function GalleryImages({ galleryId, galleryName }: GalleryImagesP
               sizes="100vw"
               priority
               quality={90}
-              onError={handleImageError}
             />
-            <div className="absolute bottom-4 left-0 right-0 text-center">
-              <span className="inline-block bg-black bg-opacity-70 px-4 py-2 rounded-full text-sm">
-                {selectedIndex + 1} / {images.length}
-              </span>
-            </div>
           </div>
         </div>
       )}
