@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground: #ffffff;
+  --background: #0c0c0c;
+  --accent: #ffffff;
+  --border: #333333;
+  --gallery-transition: 0.3s ease;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #fff;
+    --background: #000;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-geist-sans);
+}
+
+/* Gallery transitions */
+.gallery-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Smooth image loading */
+.image-loading {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.image-loaded {
+  opacity: 1;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Noir theme elements */
+.noir-card {
+  background-color: #141414;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.noir-card:hover {
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.noir-button {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.noir-button:hover {
+  background-color: #1a1a1a;
+  border-color: #ffffff;
+}
+
+/* Keep a fallback style for all pages to prevent blank screens */
+#__next, html, body {
+  min-height: 100vh;
+  background-color: #000;
+  color: #fff;
+}
+
+/* Prevent 404 from showing blank page */
+html[data-not-found="true"] body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+html[data-not-found="true"] body:before {
+  content: "404";
+  font-size: 5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+html[data-not-found="true"] body:after {
+  content: "Page Not Found";
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
